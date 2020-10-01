@@ -84,8 +84,8 @@ function Dinosaur(){
 };
 
 Dinosaur.prototype.displayFact = function(){
-  return `Fun fact: ${this.fact}!`;
   console.log('displayFact function has run');
+  return `Fun fact: ${this.fact}!`;
 };
 
 //  Dinosaur.prototype.addRow = function(){
@@ -99,8 +99,26 @@ Dinosaur.prototype.displayFact = function(){
 const human = new Human();
 
 function Human(){
-
+  this.name = [];
+  this.height = [];
+  this.weight = [];
+  this.diet = [];
 };
+
+Human.prototype.humanFormData = function(humanName, heightFeet, heightInches, weight, diet){
+  human.name.push(humanName);
+  human.height.push(heightFeet + "ft " + heightInches + "in");
+  human.weight.push(weight + " lbs");
+  human.diet.push(diet);
+};
+
+Human.prototype.clearData = function(){
+  human.name = [];
+  human.height = [];
+  human.weight = [];
+  human.diet = [];
+};
+
 // Use IIFE to get human data from form
 
 
@@ -127,6 +145,8 @@ function Human(){
 window.onload = (event) => {
   console.log("Window has loaded.");
   const form = document.getElementById("dino-compare");
+  const grid = document.getElementById("grid");
+  const results = document.getElementById("results");
 
   btn.addEventListener("click", function(){
     console.log("Button has been clicked.");
@@ -137,8 +157,18 @@ window.onload = (event) => {
     const weight = document.getElementById("weight").value;
     const diet = document.getElementById("diet").value;
 
-    console.log(humanName + heightFeet + heightInches + weight + diet);
+    human.humanFormData(humanName, heightFeet, heightInches, weight, diet);
+
+    console.log(human);
 
     form.style.display = 'none';
+    results.style.display = 'block';
+  });
+
+  resetbtn.addEventListener("click", function(){
+    form.reset();
+    form.style.display = 'block';
+    results.style.display = 'none';
+    human.clearData();
   });
 };
