@@ -74,18 +74,66 @@ let dinos = [
   }
 ]
 
+// Random number generator for displaying different dino facts
+let randomNumber = function(){
+  let number = Math.floor(Math.random() * 6) + 1;
+  if (number < 1 || number > 6){
+    randomNumber();
+  }
+  return number;
+}
+
 // Create Dino Constructor
-const dinosaur = new Dinosaur();
+const dino = new Dinosaur();
 
 function Dinosaur(){
-  return {
-
-  }
+    this.species = [];
+    this.weight = [];
+    this.height = [];
+    this.diet = [];
+    this.where = [];
+    this.when = [];
+    this.fact = [];
 };
 
-Dinosaur.prototype.displayFact = function(){
-  console.log('displayFact function has run');
-  return `Fun fact: ${this.fact}!`;
+// Randomly selects a dinosaur fact from the "dinos" array to return
+Dinosaur.prototype.randomFact = function(){
+  for (let i = 0; i < dinos.length - 1; i++){
+    let currentNumber = randomNumber();
+    let currentDino = dinos[i];
+
+    if (currentNumber === 1){
+      let dino1 = new Dinosaur();
+      dino1.species.push(currentDino.species);
+      dino1.weight.push(`Weight: ` + currentDino.weight + ` lbs`);
+      console.log(dino1);
+    } else if (currentNumber === 2){
+      let dino2 = new Dinosaur();
+      dino2.species.push(currentDino.species);
+      dino2.height.push(`Height: ` + currentDino.height + ` inches tall`);
+      console.log(dino2);
+    } else if (currentNumber === 3){
+      let dino3 = new Dinosaur();
+      dino3.species.push(currentDino.species);
+      dino3.diet.push(`Diet: ` + currentDino.diet);
+      console.log(dino3);
+    } else if (currentNumber === 4){
+      let dino4 = new Dinosaur();
+      dino4.species.push(currentDino.species);
+      dino4.where.push(`Originated from: ` + currentDino.where);
+      console.log(dino4);
+    } else if (currentNumber === 5){
+      let dino5 = new Dinosaur();
+      dino5.species.push(currentDino.species);
+      dino5.when.push(`Time period: ` + currentDino.when);
+      console.log(dino5);
+    } else if (currentNumber === 6){
+      let dino6 = new Dinosaur();
+      dino6.species.push(currentDino.species);
+      dino6.fact.push(`Fun fact: ` + currentDino.fact);
+      console.log(dino6);
+    }
+  };
 };
 
 //  Dinosaur.prototype.addRow = function(){
@@ -93,7 +141,6 @@ Dinosaur.prototype.displayFact = function(){
 //  };
 
 // Create Dino Objects
-
 
 // Create Human Object
 const human = new Human();
@@ -105,6 +152,7 @@ function Human(){
   this.diet = [];
 };
 
+// Prototype to push form field data into arrays in the right format
 Human.prototype.humanFormData = function(humanName, heightFeet, heightInches, weight, diet){
   human.name.push(humanName);
   human.height.push(heightFeet + "ft " + heightInches + "in");
@@ -112,6 +160,7 @@ Human.prototype.humanFormData = function(humanName, heightFeet, heightInches, we
   human.diet.push(diet);
 };
 
+// Clear human data from previous form submissions
 Human.prototype.clearData = function(){
   human.name = [];
   human.height = [];
@@ -138,37 +187,36 @@ Human.prototype.clearData = function(){
 
   // Add tiles to DOM
 
-// Remove form from screen
-
 
 // On button click, prepare and display infographic
 window.onload = (event) => {
-  console.log("Window has loaded.");
+  // Assign sections of the page to variables
   const form = document.getElementById("dino-compare");
   const grid = document.getElementById("grid");
   const results = document.getElementById("results");
 
   btn.addEventListener("click", function(){
-    console.log("Button has been clicked.");
-
+    // Collect data from form fields for human
     const humanName = document.getElementById("name").value;
     const heightFeet = document.getElementById("feet").value;
     const heightInches = document.getElementById("inches").value;
     const weight = document.getElementById("weight").value;
     const diet = document.getElementById("diet").value;
 
+    // Add form field data to arrays within "human" object
     human.humanFormData(humanName, heightFeet, heightInches, weight, diet);
 
-    console.log(human);
-
+    // Remove form from screen and display tiles
     form.style.display = 'none';
     results.style.display = 'block';
   });
 
   resetbtn.addEventListener("click", function(){
+    // Reset form fields and "human" data from previous submissions
     form.reset();
+    human.clearData();
+    // Display form on screen and hide previous results
     form.style.display = 'block';
     results.style.display = 'none';
-    human.clearData();
   });
 };
