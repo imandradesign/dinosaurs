@@ -100,17 +100,17 @@ let factList = [];
     let currentDino = dinoInfo[i];
 
     if (currentNumber === 1){
-      factList.push(currentDino.weight);
+      factList.push(`Weight: ` + currentDino.weight + ` lbs`);
     } else if (currentNumber === 2){
-      factList.push(currentDino.height);
+      factList.push(`Height: ` + currentDino.height + ` inches tall`);
     } else if (currentNumber === 3){
-      factList.push(currentDino.diet);
+      factList.push(`Diet: ` + currentDino.diet);
     } else if (currentNumber === 4){
-      factList.push(currentDino.where);
+      factList.push(`Originated from: ` + currentDino.where);
     } else if (currentNumber === 5){
-      factList.push(currentDino.when);
+      factList.push(`Time period: ` + currentDino.when);
     } else if (currentNumber === 6){
-      factList.push(currentDino.fact);
+      factList.push(`Fun fact: ` + currentDino.fact);
     }
   }
 })();
