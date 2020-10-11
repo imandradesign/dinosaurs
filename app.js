@@ -83,18 +83,30 @@ let randomNumber = function(){
 // Create Dino Constructor
 function Dinosaur(){
   this.species = [];
-  this.weight = [];
-  this.height = [];
-  this.diet = [];
-  this.where = [];
-  this.when = [];
   this.fact = [];
 }
 
-// Randomly selects a dinosaur fact from the "dinoInfo" array for each dinosaur and pushes it to the "factList" array
+// Create Dino Objects
+const dino1 = new Dinosaur();
+const dino2 = new Dinosaur();
+const dino3 = new Dinosaur();
+const dino4 = new Dinosaur();
+const dino5 = new Dinosaur();
+const dino6 = new Dinosaur();
+const dino7 = new Dinosaur();
+
+// Randomly selects a dino fact from the "dinoInfo" array for each dinosaur and pushes the fact and species to the Dino Objects above
 let factList = [];
 
 (function(){
+  dino1.species.push(dinoInfo[0].species);
+  dino2.species.push(dinoInfo[1].species);
+  dino3.species.push(dinoInfo[2].species);
+  dino4.species.push(dinoInfo[3].species);
+  dino5.species.push(dinoInfo[4].species);
+  dino6.species.push(dinoInfo[5].species);
+  dino7.species.push(dinoInfo[6].species);
+
   for (let i = 0; i < dinoInfo.length - 1; i++){
     let currentNumber = randomNumber();
     let currentDino = dinoInfo[i];
@@ -113,16 +125,14 @@ let factList = [];
       factList.push(`Fun fact: ` + currentDino.fact);
     }
   }
+  dino1.fact.push(factList[0]);
+  dino2.fact.push(factList[1]);
+  dino3.fact.push(factList[2]);
+  dino4.fact.push(factList[3]);
+  dino5.fact.push(factList[4]);
+  dino6.fact.push(factList[5]);
+  dino7.fact.push(factList[6]);
 })();
-
-// Create Dino Objects
-const dino1 = new Dinosaur();
-const dino2 = new Dinosaur();
-const dino3 = new Dinosaur();
-const dino4 = new Dinosaur();
-const dino5 = new Dinosaur();
-const dino6 = new Dinosaur();
-const dino7 = new Dinosaur();
 
 // Create Human Object
 const human = new Human();
