@@ -1,5 +1,5 @@
-// Dinosaur information
-let dinos = [
+// Dinosaur info array
+let dinoInfo = [
   {
       "species": "Triceratops",
       "weight": 13000,
@@ -77,70 +77,52 @@ let dinos = [
 // Random number generator for displaying different dino facts
 let randomNumber = function(){
   let number = Math.floor(Math.random() * 6) + 1;
-  if (number < 1 || number > 6){
-    randomNumber();
-  }
   return number;
 }
 
 // Create Dino Constructor
-const dino = new Dinosaur();
-
 function Dinosaur(){
-    this.species = [];
-    this.weight = [];
-    this.height = [];
-    this.diet = [];
-    this.where = [];
-    this.when = [];
-    this.fact = [];
-};
+  this.species = [];
+  this.weight = [];
+  this.height = [];
+  this.diet = [];
+  this.where = [];
+  this.when = [];
+  this.fact = [];
+}
 
-// Randomly selects a dinosaur fact from the "dinos" array to return
-Dinosaur.prototype.randomFact = function(){
-  for (let i = 0; i < dinos.length - 1; i++){
+// Randomly selects a dinosaur fact from the "dinoInfo" array for each dinosaur and pushes it to the "factList" array
+let factList = [];
+
+(function(){
+  for (let i = 0; i < dinoInfo.length - 1; i++){
     let currentNumber = randomNumber();
-    let currentDino = dinos[i];
+    let currentDino = dinoInfo[i];
 
     if (currentNumber === 1){
-      let dino1 = new Dinosaur();
-      dino1.species.push(currentDino.species);
-      dino1.weight.push(`Weight: ` + currentDino.weight + ` lbs`);
-      console.log(dino1);
+      factList.push(currentDino.weight);
     } else if (currentNumber === 2){
-      let dino2 = new Dinosaur();
-      dino2.species.push(currentDino.species);
-      dino2.height.push(`Height: ` + currentDino.height + ` inches tall`);
-      console.log(dino2);
+      factList.push(currentDino.height);
     } else if (currentNumber === 3){
-      let dino3 = new Dinosaur();
-      dino3.species.push(currentDino.species);
-      dino3.diet.push(`Diet: ` + currentDino.diet);
-      console.log(dino3);
+      factList.push(currentDino.diet);
     } else if (currentNumber === 4){
-      let dino4 = new Dinosaur();
-      dino4.species.push(currentDino.species);
-      dino4.where.push(`Originated from: ` + currentDino.where);
-      console.log(dino4);
+      factList.push(currentDino.where);
     } else if (currentNumber === 5){
-      let dino5 = new Dinosaur();
-      dino5.species.push(currentDino.species);
-      dino5.when.push(`Time period: ` + currentDino.when);
-      console.log(dino5);
+      factList.push(currentDino.when);
     } else if (currentNumber === 6){
-      let dino6 = new Dinosaur();
-      dino6.species.push(currentDino.species);
-      dino6.fact.push(`Fun fact: ` + currentDino.fact);
-      console.log(dino6);
+      factList.push(currentDino.fact);
     }
-  };
-};
-
-//  Dinosaur.prototype.addRow = function(){
-//    return "<tr>" + "<th>" + ${} + "</th>" + "<th>" + ${} + "</th>" + "<th>" + ${} + "</th>" + "</tr>"
-//  };
+  }
+})();
 
 // Create Dino Objects
+const dino1 = new Dinosaur();
+const dino2 = new Dinosaur();
+const dino3 = new Dinosaur();
+const dino4 = new Dinosaur();
+const dino5 = new Dinosaur();
+const dino6 = new Dinosaur();
+const dino7 = new Dinosaur();
 
 // Create Human Object
 const human = new Human();
@@ -192,7 +174,6 @@ Human.prototype.clearData = function(){
 window.onload = (event) => {
   // Assign sections of the page to variables
   const form = document.getElementById("dino-compare");
-  const grid = document.getElementById("grid");
   const results = document.getElementById("results");
 
   btn.addEventListener("click", function(){
