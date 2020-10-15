@@ -83,7 +83,10 @@ let randomNumber = function(){
 // Create Dino Constructor
 function Dinosaur(){
   this.species = [];
-  this.fact = [];
+  this.chosenFact = [];
+  this.weight = [];
+  this.height = [];
+  this.diet = [];
 }
 
 // Create Dino Objects
@@ -95,10 +98,11 @@ const dino5 = new Dinosaur();
 const dino6 = new Dinosaur();
 const dino7 = new Dinosaur();
 
-// Randomly selects a dino fact from the "dinoInfo" array for each dinosaur and pushes the fact and species to the Dino Objects above
+// Randomly selects a dino fact from the dinoInfo array for each dinosaur and pushes the fact and species to the Dino Objects above
 let factList = [];
 
-(function(){
+const generateDinoInfo = function(){
+  // Pushing the species to the dino objects
   dino1.species.push(dinoInfo[0].species);
   dino2.species.push(dinoInfo[1].species);
   dino3.species.push(dinoInfo[2].species);
@@ -107,12 +111,14 @@ let factList = [];
   dino6.species.push(dinoInfo[5].species);
   dino7.species.push(dinoInfo[6].species);
 
+  // Looping through the dinoInfo array to get a random fact and pushing those to factList array
   for (let i = 0; i < dinoInfo.length - 1; i++){
     let currentNumber = randomNumber();
     let currentDino = dinoInfo[i];
 
     if (currentNumber === 1){
-      factList.push(`Weight: ` + currentDino.weight + ` lbs`);
+      // let weight = weightDivide(currentDino.weight);
+      // factList.push(weight);
     } else if (currentNumber === 2){
       factList.push(`Height: ` + currentDino.height + ` inches tall`);
     } else if (currentNumber === 3){
@@ -125,14 +131,15 @@ let factList = [];
       factList.push(`Fun fact: ` + currentDino.fact);
     }
   }
-  dino1.fact.push(factList[0]);
-  dino2.fact.push(factList[1]);
-  dino3.fact.push(factList[2]);
-  dino4.fact.push(factList[3]);
-  dino5.fact.push(factList[4]);
-  dino6.fact.push(factList[5]);
-  dino7.fact.push(factList[6]);
-})();
+  // Pushing the proper random facts from the factList array to the dino objects
+  dino1.chosenFact.push(factList[0]);
+  dino2.chosenFact.push(factList[1]);
+  dino3.chosenFact.push(factList[2]);
+  dino4.chosenFact.push(factList[3]);
+  dino5.chosenFact.push(factList[4]);
+  dino6.chosenFact.push(factList[5]);
+  dino7.chosenFact.push(factList[6]);
+};
 
 // Create Human Object
 const human = new Human();
@@ -146,9 +153,11 @@ function Human(){
 
 // Prototype to push form field data into arrays in the right format
 Human.prototype.humanFormData = function(humanName, heightFeet, heightInches, weight, diet){
+  let totalHeight = parseInt(heightFeet) * 12 + parseInt(heightInches);
+
   human.name.push(humanName);
-  human.height.push(heightFeet + "ft " + heightInches + "in");
-  human.weight.push(weight + " lbs");
+  human.height.push(totalHeight);
+  human.weight.push(parseInt(weight));
   human.diet.push(diet);
 };
 
@@ -165,14 +174,23 @@ Human.prototype.clearData = function(){
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
+const weightComparison = function(weight){
+  let weightDivide = Math.round(weight / human.weight * 10) / 10;
 
+  if (weightDivide === 1){
+    return `This dino weighed: ` + weight + `lbs. Which is almost exactly the same as you!`
+  } else if (weightDivide > 1){
+    return `This dino weighed: ` + weight + `lbs. Which is ` + weightDivide + ` times more than you!`;
+  } else if (weightDivide < 1){
+    let weightAdjust = Math.round(human.weight / weight * 10) / 10;
+    return `This dino weighed: ` + weight + `lbs. Which is ` + weightAdjust + `times less than you!`
+  }
+};
 
 // Create Dino Compare Method 2
-// NOTE: Weight in JSON file is in lbs, height in inches.
 
 
 // Create Dino Compare Method 3
-// NOTE: Weight in JSON file is in lbs, height in inches.
 
 
 // Generate Tiles for each Dino in Array
@@ -196,6 +214,9 @@ window.onload = (event) => {
 
     // Add form field data to arrays within "human" object
     human.humanFormData(humanName, heightFeet, heightInches, weight, diet);
+
+    // Generate info for 7 dinosaurs
+    generateDinoInfo();
 
     // Remove form from screen and display tiles
     form.style.display = 'none';
