@@ -117,8 +117,8 @@ const generateDinoInfo = function(){
     let currentDino = dinoInfo[i];
 
     if (currentNumber === 1){
-      // let weight = weightDivide(currentDino.weight);
-      // factList.push(weight);
+      let weight = weightComparison(currentDino.weight);
+      factList.push(weight);
     } else if (currentNumber === 2){
       factList.push(`Height: ` + currentDino.height + ` inches tall`);
     } else if (currentNumber === 3){
@@ -178,12 +178,15 @@ const weightComparison = function(weight){
   let weightDivide = Math.round(weight / human.weight * 10) / 10;
 
   if (weightDivide === 1){
-    return `This dino weighed: ` + weight + `lbs. Which is almost exactly the same as you!`
+    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is almost exactly the same as you!`
+    return weightCompared;
   } else if (weightDivide > 1){
-    return `This dino weighed: ` + weight + `lbs. Which is ` + weightDivide + ` times more than you!`;
+    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is ` + weightDivide + ` times more than you!`;
+    return weightCompared;
   } else if (weightDivide < 1){
     let weightAdjust = Math.round(human.weight / weight * 10) / 10;
-    return `This dino weighed: ` + weight + `lbs. Which is ` + weightAdjust + `times less than you!`
+    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is ` + weightAdjust + `times less than you!`
+    return weightCompared;
   }
 };
 
