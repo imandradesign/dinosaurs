@@ -4,7 +4,7 @@ let dinoInfo = [
       "species": "Triceratops",
       "weight": 13000,
       "height": 114,
-      "diet": "herbavor",
+      "diet": "Herbavore",
       "where": "North America",
       "when": "Late Cretaceous",
       "fact": "First discovered in 1889 by Othniel Charles Marsh"
@@ -13,7 +13,7 @@ let dinoInfo = [
       "species": "Tyrannosaurus Rex",
       "weight": 11905,
       "height": 144,
-      "diet": "carnivor",
+      "diet": "Carnivore",
       "where": "North America",
       "when": "Late Cretaceous",
       "fact": "The largest known skull measures in at 5 feet long."
@@ -22,7 +22,7 @@ let dinoInfo = [
       "species": "Anklyosaurus",
       "weight": 10500,
       "height": 55,
-      "diet": "herbavor",
+      "diet": "Herbavore",
       "where": "North America",
       "when": "Late Cretaceous",
       "fact": "Anklyosaurus survived for approximately 135 million years."
@@ -31,7 +31,7 @@ let dinoInfo = [
       "species": "Brachiosaurus",
       "weight": 70000,
       "height": "372",
-      "diet": "herbavor",
+      "diet": "Herbavore",
       "where": "North America",
       "when": "Late Jurasic",
       "fact": "An asteroid was named 9954 Brachiosaurus in 1991."
@@ -40,7 +40,7 @@ let dinoInfo = [
       "species": "Stegosaurus",
       "weight": 11600,
       "height": 79,
-      "diet": "herbavor",
+      "diet": "Herbavore",
       "where": "North America, Europe, Asia",
       "when": "Late Jurasic to Early Cretaceous",
       "fact": "The Stegosaurus had between 17 and 22 seperate places and flat spines."
@@ -49,7 +49,7 @@ let dinoInfo = [
       "species": "Elasmosaurus",
       "weight": 16000,
       "height": 59,
-      "diet": "carnivor",
+      "diet": "Carnivore",
       "where": "North America",
       "when": "Late Cretaceous",
       "fact": "Elasmosaurus was a marine reptile first discovered in Kansas."
@@ -58,7 +58,7 @@ let dinoInfo = [
       "species": "Pteranodon",
       "weight": 44,
       "height": 20,
-      "diet": "carnivor",
+      "diet": "Carnivore",
       "where": "North America",
       "when": "Late Cretaceous",
       "fact": "Actually a flying reptile, the Pteranodon is not a dinosaur."
@@ -67,7 +67,7 @@ let dinoInfo = [
       "species": "Pigeon",
       "weight": 0.5,
       "height": 9,
-      "diet": "herbavor",
+      "diet": "Herbavore",
       "where": "World Wide",
       "when": "Holocene",
       "fact": "All birds are living dinosaurs."
@@ -120,9 +120,11 @@ const generateDinoInfo = function(){
       let weight = weightComparison(currentDino.weight);
       factList.push(weight);
     } else if (currentNumber === 2){
-      factList.push(`Height: ` + currentDino.height + ` inches tall`);
+      let height = heightComparison(currentDino.height);
+      factList.push(height);
     } else if (currentNumber === 3){
-      factList.push(`Diet: ` + currentDino.diet);
+      let diet = dietComparison(currentDino.diet);
+      factList.push(diet);
     } else if (currentNumber === 4){
       factList.push(`Originated from: ` + currentDino.where);
     } else if (currentNumber === 5){
@@ -178,23 +180,46 @@ const weightComparison = function(weight){
   let weightDivide = Math.round(weight / human.weight * 10) / 10;
 
   if (weightDivide === 1){
-    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is almost exactly the same as you!`
-    return weightCompared;
+    return `This dino weighed: ` + weight + `lbs. Which is almost exactly the same as you!`;
   } else if (weightDivide > 1){
-    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is ` + weightDivide + ` times more than you!`;
-    return weightCompared;
+    return `This dino weighed: ` + weight + `lbs. Which is ` + weightDivide + ` times more than you!`;
   } else if (weightDivide < 1){
     let weightAdjust = Math.round(human.weight / weight * 10) / 10;
-    const weightCompared = `This dino weighed: ` + weight + `lbs. Which is ` + weightAdjust + `times less than you!`
-    return weightCompared;
+    return `This dino weighed: ` + weight + `lbs. Which is ` + weightAdjust + `times less than you!`;
   }
 };
 
 // Create Dino Compare Method 2
+const heightComparison = function(height){
+  const convertToFeet = function(totalInches){
+    let feet = Math.floor(totalInches/12);
+    let inches = totalInches%12;
+    return feet + ` feet ` + inches + ` inches tall.`;
+  }
 
+  let heightDivide = Math.round(height / human.height * 10) / 10;
+  let dinoHeight = convertToFeet(height);
+  let humanHeight = convertToFeet(human.height);
+
+  if (heightDivide === 1){
+    return `This dino is ` + dinoHeight + ` Which is about the same as your height!`
+  } else if (heightDivide > 1){
+    return `This dino is ` + dinoHeight + ` Which is ` + heightDivide + ` times taller than you!`
+  } else if (heightDivide < 1){
+    let heightAdjust = Math.round(human.height / height * 10) / 10;
+    return `This dino is ` + dinoHeight + ` Which is ` + heightAdjust + ` times shorter than you!`
+  }
+};
 
 // Create Dino Compare Method 3
-
+const dietComparison = function(diet){
+  let humanDiet = human.diet.toString();
+  if (diet === humanDiet){
+    return `You and this dino have the exact same diet! Always the same with you ` + diet + `s.`;
+  } else if (diet !== humanDiet){
+    return `This dino is a(n) ` + diet + `, which is different than being a(n) ` + human.diet + ` but you're both pretty cool!`;
+  }
+};
 
 // Generate Tiles for each Dino in Array
 
