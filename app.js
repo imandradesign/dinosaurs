@@ -80,16 +80,29 @@ let randomNumber = function(){
   return number;
 }
 
+// Function to convert height from inches to readable format
+const convertToFeet = function(totalInches){
+  let feet = Math.floor(totalInches/12);
+  let inches = totalInches%12;
+  return feet + ` ft ` + inches + ` in tall`;
+}
+
 // Create Dino Constructor
 function Dinosaur(){
   this.species = [];
   this.chosenFact = [];
-  this.weight = [];
-  this.height = [];
-  this.diet = [];
+  this.imageUrl = [];
 }
 
-// Create Dino Objects
+// Append dinosaur and bird tiles onto page
+Dinosaur.prototype.createTile = function(id){
+  let tile = document.createElement('th');
+
+  tile.innerHTML = "<th><h2 id='title'>" + this.species + "<br><img src='../dinosaurs/images/" + this.imageUrl + ".png'></h2><br><h4 id='fact'>" + this.chosenFact + "</h4></th>";
+  id.appendChild(tile);
+}
+
+// Create Dino & Bird Objects
 const dino1 = new Dinosaur();
 const dino2 = new Dinosaur();
 const dino3 = new Dinosaur();
@@ -97,6 +110,32 @@ const dino4 = new Dinosaur();
 const dino5 = new Dinosaur();
 const dino6 = new Dinosaur();
 const dino7 = new Dinosaur();
+const dino8 = new Dinosaur();
+
+// Add static bird data to object
+(function(){
+  dino8.species.push(dinoInfo[7].species);
+  dino8.chosenFact.push(dinoInfo[7].fact);
+})();
+
+// Variable to add images to the dinosaur objects
+let imageUrls = [];
+
+(function(){
+  for(let i = 0; i < dinoInfo.length; i++){
+    let species = dinoInfo[i].species;
+    let filename = species.toString().toLowerCase();
+    imageUrls.push(filename);
+  }
+  dino1.imageUrl.push(imageUrls[0]);
+  dino2.imageUrl.push(imageUrls[1]);
+  dino3.imageUrl.push(imageUrls[2]);
+  dino4.imageUrl.push(imageUrls[3]);
+  dino5.imageUrl.push(imageUrls[4]);
+  dino6.imageUrl.push(imageUrls[5]);
+  dino7.imageUrl.push(imageUrls[6]);
+  dino8.imageUrl.push(imageUrls[7]);
+})();
 
 // Randomly selects a dino fact from the dinoInfo array for each dinosaur and pushes the fact and species to the Dino Objects above
 let factList = [];
@@ -112,7 +151,7 @@ const generateDinoInfo = function(){
   dino7.species.push(dinoInfo[6].species);
 
   // Looping through the dinoInfo array to get a random fact and pushing those to factList array
-  for (let i = 0; i < dinoInfo.length - 1; i++){
+  for(let i = 0; i < dinoInfo.length - 1; i++){
     let currentNumber = randomNumber();
     let currentDino = dinoInfo[i];
 
@@ -171,8 +210,13 @@ Human.prototype.clearData = function(){
   human.diet = [];
 };
 
-// Use IIFE to get human data from form
-
+// Append Human tile onto page with form data
+Human.prototype.createTile = function(id){
+  let height = convertToFeet(this.height);
+  let tile = document.createElement('th');
+  tile.innerHTML = "<th><h2 id='title'>" + this.name + "</h2><br><img src='../dinosaurs/images/human.png'><h4 id='fact'>Height: " + height + "<br>Weight: " + this.weight + " lbs<br>Diet: " + this.diet + "</h4></th>";
+  id.appendChild(tile);
+}
 
 // Create Dino Compare Method 1
 // NOTE: Weight in JSON file is in lbs, height in inches.
@@ -191,23 +235,17 @@ const weightComparison = function(weight){
 
 // Create Dino Compare Method 2
 const heightComparison = function(height){
-  const convertToFeet = function(totalInches){
-    let feet = Math.floor(totalInches/12);
-    let inches = totalInches%12;
-    return feet + ` feet ` + inches + ` inches tall.`;
-  }
-
   let heightDivide = Math.round(height / human.height * 10) / 10;
   let dinoHeight = convertToFeet(height);
   let humanHeight = convertToFeet(human.height);
 
   if (heightDivide === 1){
-    return `This dino is ` + dinoHeight + ` Which is about the same as your height!`
+    return `This dino is ` + dinoHeight + `. Which is about the same as your height!`
   } else if (heightDivide > 1){
-    return `This dino is ` + dinoHeight + ` Which is ` + heightDivide + ` times taller than you!`
+    return `This dino is ` + dinoHeight + `. Which is ` + heightDivide + ` times taller than you!`
   } else if (heightDivide < 1){
     let heightAdjust = Math.round(human.height / height * 10) / 10;
-    return `This dino is ` + dinoHeight + ` Which is ` + heightAdjust + ` times shorter than you!`
+    return `This dino is ` + dinoHeight + `. Which is ` + heightAdjust + ` times shorter than you!`
   }
 };
 
@@ -221,17 +259,15 @@ const dietComparison = function(diet){
   }
 };
 
-// Generate Tiles for each Dino in Array
-
-  // Add tiles to DOM
-
-
-// On button click, prepare and display infographic
 window.onload = (event) => {
   // Assign sections of the page to variables
   const form = document.getElementById("dino-compare");
   const results = document.getElementById("results");
+  const rowOne = document.getElementById("row1");
+  const rowTwo = document.getElementById("row2");
+  const rowThree = document.getElementById("row3");
 
+  // On button click, prepare and display infographic
   btn.addEventListener("click", function(){
     // Collect data from form fields for human
     const humanName = document.getElementById("name").value;
@@ -246,17 +282,31 @@ window.onload = (event) => {
     // Generate info for 7 dinosaurs
     generateDinoInfo();
 
+    // Generate Tiles for each Dino in Array
+    dino1.createTile(rowOne, dino1);
+    dino2.createTile(rowOne, dino2);
+    dino3.createTile(rowOne, dino3);
+    dino4.createTile(rowTwo, dino4);
+    human.createTile(rowTwo);
+    dino5.createTile(rowTwo, dino5);
+    dino6.createTile(rowThree, dino6);
+    dino7.createTile(rowThree, dino7);
+    dino8.createTile(rowThree, dino8);
+
+    // Add tiles to DOM
+
     // Remove form from screen and display tiles
     form.style.display = 'none';
-    results.style.display = 'block';
+    results.style.display = 'flow';
   });
 
-  resetbtn.addEventListener("click", function(){
-    // Reset form fields and "human" data from previous submissions
-    form.reset();
-    human.clearData();
-    // Display form on screen and hide previous results
-    form.style.display = 'block';
-    results.style.display = 'none';
-  });
+// Reset form to retry submission without refresh
+  // resetbtn.addEventListener("click", function(){
+  //   // Reset form fields and "human" data from previous submissions
+  //   form.reset();
+  //   human.clearData();
+  //   // Display form on screen and hide previous results
+  //   form.style.display = 'flow';
+  //   results.style.display = 'none';
+  // });
 };
